@@ -23,6 +23,12 @@ const StudentData = [
         Branch:"IT",
         Section:"B",
     },
+    {
+        GitName:"ashishvirgo",
+        Repo:"learn_nodejs",
+        Branch:"IT",
+        Section:"B",
+    },
 ]
 
 export default StudentData
