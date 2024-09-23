@@ -14,7 +14,6 @@ export default function MyNavbar() {
     "My Settings",
     "Team Settings",
     "Help & Feedback",
-    "Log Out",
   ];
 
   return (
@@ -46,7 +45,7 @@ export default function MyNavbar() {
           </Link>
         </NavbarItem>
       </NavbarContent>
-      <NavbarContent justify="end">
+      {/* <NavbarContent justify="end">
         <NavbarItem className="hidden lg:flex">
           <Link href="#">Login</Link>
         </NavbarItem>
@@ -55,7 +54,7 @@ export default function MyNavbar() {
             Sign Up
           </Button>
         </NavbarItem>
-      </NavbarContent>
+      </NavbarContent> */}
       <NavbarMenu>
         {menuItems.map((item, index) => (
           <NavbarMenuItem key={`${item}-${index}`}>

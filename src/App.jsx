@@ -31,6 +31,8 @@ function App() {
       today.getDate()
     ).toISOString();
 
+    //2024-10-20T00:00:00Z
+
     const apiCall = async (name, repo) => {
       try {
         setLoading(true)
@@ -42,6 +44,7 @@ function App() {
             },
           }
         );
+        console.log(res.data)
         return res.data.length;
       } catch (err) {
         console.log(err);
@@ -49,10 +52,15 @@ function App() {
       }
     };
 
+    const lastCommitCall = async () => {
+
+    }
+
     const results = await Promise.allSettled(
       StudentData.map(async (st) => {
         const commitCount = await apiCall(st.GitName, st.Repo);
         return {
+          Name:st.Name,
           GitName: st.GitName,
           Repo: st.Repo,
           Branch: st.Branch,
@@ -171,6 +179,7 @@ function App() {
         <Table aria-label="FSD Git Commit Tracker Table">
           <TableHeader>
             <TableColumn>NAME</TableColumn>
+            <TableColumn>GitUserName</TableColumn>
             <TableColumn>Branch</TableColumn>
             <TableColumn>Section</TableColumn>
             <TableColumn>Repository</TableColumn>
@@ -179,6 +188,7 @@ function App() {
           <TableBody>
             {filteredStudents.map((st, ind) => (
               <TableRow key={ind}>
+                <TableCell>{st.Name}</TableCell>
                 <TableCell>{st.GitName}</TableCell>
                 <TableCell>{st.Branch}</TableCell>
                 <TableCell>{st.Section}</TableCell>
