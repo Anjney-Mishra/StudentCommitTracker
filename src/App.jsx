@@ -253,6 +253,8 @@ function App() {
           </TableBody>
         </Table>
       </div> */}
+
+      <MyFooter/>
       
     </>
   );
