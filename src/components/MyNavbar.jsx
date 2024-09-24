@@ -1,5 +1,14 @@
 import React from "react";
-import {Navbar, NavbarBrand, NavbarContent, NavbarItem, NavbarMenuToggle, NavbarMenu, NavbarMenuItem, Link, Button} from "@nextui-org/react";
+import {
+  Navbar,
+  NavbarBrand,
+  NavbarContent,
+  NavbarItem,
+  NavbarMenuToggle,
+  NavbarMenu,
+  NavbarMenuItem,
+} from "@nextui-org/react";
+import { NavLink } from "react-router-dom";
 
 export default function MyNavbar() {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
@@ -17,57 +26,79 @@ export default function MyNavbar() {
   ];
 
   return (
-    <Navbar onMenuOpenChange={setIsMenuOpen}>
+    <Navbar 
+      onMenuOpenChange={setIsMenuOpen} 
+      isMenuOpen={isMenuOpen} 
+      className="bg-white shadow-md dark:bg-gray-900"
+    >
+      {/* Brand and Menu Toggle (for mobile) */}
       <NavbarContent>
         <NavbarMenuToggle
           aria-label={isMenuOpen ? "Close menu" : "Open menu"}
           className="sm:hidden"
+          onClick={() => setIsMenuOpen(!isMenuOpen)}
         />
         <NavbarBrand>
-          <p className="font-bold text-2xl">ABES FSD Department</p>
+          <p className="font-bold text-2xl text-primary dark:text-white">
+            ABES FSD Department
+          </p>
         </NavbarBrand>
       </NavbarContent>
 
-      <NavbarContent className="hidden sm:flex gap-4" justify="center">
+      {/* Desktop Links */}
+      <NavbarContent className="hidden sm:flex gap-6 justify-center">
         <NavbarItem>
-          <Link color="foreground" href="#">
-            AboutUs
-          </Link>
-        </NavbarItem>
-        <NavbarItem isActive>
-          <Link href="#" aria-current="page">
+          <NavLink
+            to="/"
+            className={({ isActive }) =>
+              isActive
+                ? "text-primary underline font-semibold transition-all"
+                : "hover:text-blue-500 dark:hover:text-blue-300 transition-all"
+            }
+          >
             Tracker
-          </Link>
+          </NavLink>
         </NavbarItem>
         <NavbarItem>
-          <Link color="foreground" href="#">
-            ContactUs
-          </Link>
+          <NavLink
+            to="/about"
+            className={({ isActive }) =>
+              isActive
+                ? "text-primary underline font-semibold transition-all"
+                : "hover:text-blue-500 dark:hover:text-blue-300 transition-all"
+            }
+          >
+            About Us
+          </NavLink>
+        </NavbarItem>
+        <NavbarItem>
+          <NavLink
+            to="/contact"
+            className={({ isActive }) =>
+              isActive
+                ? "text-primary underline font-semibold transition-all"
+                : "hover:text-blue-500 dark:hover:text-blue-300 transition-all"
+            }
+          >
+            Contact Us
+          </NavLink>
         </NavbarItem>
       </NavbarContent>
-      {/* <NavbarContent justify="end">
-        <NavbarItem className="hidden lg:flex">
-          <Link href="#">Login</Link>
-        </NavbarItem>
-        <NavbarItem>
-          <Button as={Link} color="primary" href="#" variant="flat">
-            Sign Up
-          </Button>
-        </NavbarItem>
-      </NavbarContent> */}
-      <NavbarMenu>
+
+      {/* Mobile Menu */}
+      <NavbarMenu isOpen={isMenuOpen} className="bg-white dark:bg-gray-900">
         {menuItems.map((item, index) => (
           <NavbarMenuItem key={`${item}-${index}`}>
-            <Link
-              color={
-                index === 2 ? "primary" : index === menuItems.length - 1 ? "danger" : "foreground"
+            <NavLink
+              to="#"
+              className={({ isActive }) =>
+                isActive
+                  ? "block w-full text-primary font-semibold transition-all"
+                  : "block w-full hover:text-blue-500 dark:hover:text-blue-300 transition-all"
               }
-              className="w-full"
-              href="#"
-              size="lg"
             >
               {item}
-            </Link>
+            </NavLink>
           </NavbarMenuItem>
         ))}
       </NavbarMenu>
