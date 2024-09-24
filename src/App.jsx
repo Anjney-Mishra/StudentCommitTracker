@@ -172,10 +172,10 @@ function App() {
 
     {
       loading ?
-      <div className="h-[100vh] mt-[2%]">
+      <div className="h-full mt-[2%]">
         <MySkeleton/>
       </div>:
-      <div className="h-[100vh] mt-[2%]">
+      <div className="h-auto mt-[2%] mb-[3%]">
         <Table aria-label="FSD Git Commit Tracker Table">
           <TableHeader>
             <TableColumn>NAME</TableColumn>
