@@ -23,7 +23,13 @@ const Repocheck = () => {
 
   const getData = async () => {
     const today = new Date();
-    const todayISO = new Date(today.getFullYear(), today.getMonth(), today.getDate()).toISOString();
+    const todayISO = new Date(
+      today.getFullYear(),
+      today.getMonth(),
+      today.getDate()
+    ).toISOString();
+
+    //since=2023-10-20T00:00:00Z
 
     const apiCall = async (name, repo) => {
       try {
@@ -71,7 +77,9 @@ const Repocheck = () => {
     const filtered = students.filter((st) => {
       const isBranchMatch = branch ? st.Branch === branch : true;
       const isSectionMatch = section ? st.Section === section : true;
-      const isNonCommitterMatch = showNonCommitters ? st.Check === 0 || st.Check === 404 : true;
+      const isNonCommitterMatch = showNonCommitters
+        ? st.Check === 0 || st.Check === 404
+        : true;
       return isBranchMatch && isSectionMatch && isNonCommitterMatch;
     });
     setFilteredStudents(filtered);
@@ -101,7 +109,9 @@ const Repocheck = () => {
   return (
     <>
       <div className="p-8 bg-black-400 m-4">
-        <h1 className="text-6xl font-semibold text-center">Student Commit Tracker</h1>
+        <h1 className="text-6xl font-semibold text-center">
+          Student Commit Tracker
+        </h1>
       </div>
 
       {/* Filter Section */}
@@ -153,6 +163,7 @@ const Repocheck = () => {
               <TableColumn>Section</TableColumn>
               <TableColumn>Repository</TableColumn>
               <TableColumn>Status</TableColumn>
+              <TableColumn>Commits</TableColumn>
             </TableHeader>
             <TableBody>
               {filteredStudents.map((st, ind) => (
@@ -176,6 +187,15 @@ const Repocheck = () => {
                         Not Committed
                       </Chip>
                     )}
+                  </TableCell>
+                  <TableCell>
+                    {st.Check != 404 && st.Check > 0 ? (
+                      <Chip variant="flat" color="success">
+                        {st.Check}
+                      </Chip>
+                    ) : 
+                    (st.Check===404? <Chip variant="flat" color="warning">Error</Chip>
+                    : <Chip variant="flat" color="danger">0</Chip>)}
                   </TableCell>
                 </TableRow>
               ))}
