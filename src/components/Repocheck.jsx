@@ -1,4 +1,4 @@
-import StudentData from "../../StudentData";
+import StudentData from "../../data/StudentData";
 import { useState, useEffect } from "react";
 import {
   Button,
@@ -20,14 +20,17 @@ const Repocheck = () => {
   const [selectedSection, setSelectedSection] = useState("");
   const [showNonCommitters, setShowNonCommitters] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [date, setDate] = useState("");
 
   const getData = async () => {
-    const today = new Date();
-    const todayISO = new Date(
-      today.getFullYear(),
-      today.getMonth(),
-      today.getDate()
-    ).toISOString();
+    // const today = new Date();
+    // const todayISO = new Date(
+    //   today.getFullYear(),
+    //   today.getMonth(),
+    //   today.getDate()
+    // ).toISOString();
+
+    const todayISO = date ? new Date(date).toISOString() : new Date().toISOString();
 
     //since=2023-10-20T00:00:00Z
 
@@ -35,7 +38,7 @@ const Repocheck = () => {
       try {
         setLoading(true);
         const res = await axios.get(
-          `https://api.github.com/repos/${name}/${repo}/commits?since=2023-10-20T00:00:00Z`,
+          `https://api.github.com/repos/${name}/${repo}/commits?since=${todayISO}`,
           {
             headers: {
               Authorization: `Bearer ${import.meta.env.VITE_GIT_TOKEN}`,
@@ -102,9 +105,13 @@ const Repocheck = () => {
     filterStudents(selectedBranch, selectedSection, !showNonCommitters);
   };
 
+  const handleDateChange = (e) => {
+    setDate(e.target.value);
+  };
+
   useEffect(() => {
     getData();
-  }, []);
+  }, [date]);
 
   return (
     <>
@@ -127,6 +134,7 @@ const Repocheck = () => {
             <option value="IT">IT</option>
             <option value="CS">CS</option>
             <option value="ME">ME</option>
+            <option value="CSE_AIML">CSE_AIML</option>
           </select>
 
           <select
@@ -139,6 +147,14 @@ const Repocheck = () => {
             <option value="B">B</option>
             <option value="C">C</option>
           </select>
+
+          <input
+            type="date"
+            value={date}
+            onChange={handleDateChange}
+            className="p-2 border rounded"
+          />
+
         </div>
 
         <div className="flex w-full flex-wrap md:flex-nowrap gap-4 mb-4">
@@ -154,7 +170,7 @@ const Repocheck = () => {
           <MySkeleton />
         </div>
       ) : (
-        <div className="h-[100vh] mt-[2%]">
+        <div className="h-auto mt-[2%]">
           <Table aria-label="FSD Git Commit Tracker Table">
             <TableHeader>
               <TableColumn>NAME</TableColumn>
